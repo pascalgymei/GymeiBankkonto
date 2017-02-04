@@ -5,6 +5,6 @@ var Type = {
 
 var socket = io.connect({ 'pingInterval': 45000 });
 
-function testFunction() {
+function testFunktion() {
     socket.emit(Type.TEST);
 }
