@@ -50,5 +50,5 @@ function logiban() {
     var iban = iban_element.value.trim();
     var password = password_element.value.trim();
 
-    socket.emit(Type.LOGIN, iban);
+    socket.emit(Type.LOGIN);
 }
