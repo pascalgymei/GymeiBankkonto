@@ -11,8 +11,7 @@ var headers = {
 
 //Enums
 var Type = {
-    TEST1: 0,
-    TEST2: 1
+    TEST1: 0
 };
 
 var server = http.createServer(function(req,res)
@@ -50,6 +49,31 @@ var server = http.createServer(function(req,res)
                 }
             });
         break;
+        case '/namecheck':
+            var name = url.parse(req.url).query;
+            if (name && typeof name == 'string') {
+                res.writeHead(200, { "Content-Type": "text/plain" });
+                if (name.length == 0) {
+                    res.write('empty');
+                }
+                else if (name.toLowerCase() == 'eine IBAN') {
+                    res.write('lol');
+                }
+                else if (name.length > 22 || name.length < 22) {
+                    res.write('not22');
+                }
+                else if (/^[a-z0-9-_]+$/i.test(name)) {
+                    res.write('good');
+                }
+                else {
+                    res.write('invalid');
+                }
+            }
+            else {
+                res.write('empty');
+            }
+            res.end();
+        break;
         default:
             res.writeHead(404);
             res.write('<h1>Oops! This page doesn\'t seem to exist! 404</h1>');
@@ -66,6 +90,5 @@ io.listen(server);
 io.on('connection', function(socket){
     socket.on(Type.TEST1, function () {
         console.log("Test");
-        socket.emit(Type.TEST2);
     });
 });
