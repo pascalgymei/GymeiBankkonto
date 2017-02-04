@@ -1,0 +1,12 @@
+{
+  "name": "GymeiBankkonto",
+  "start": "node server.js",
+  "version": "1.0.0",
+  "engines" : {
+  "node" : "4.3.0"
+  },
+  "description": "Das Ultimative Gymei Bankkonto",
+  "dependencies": {
+  "socket.io": "^1.3.5"
+  }
+}
