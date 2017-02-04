@@ -28,11 +28,6 @@ var server = http.createServer(function(req,res)
                         res.end();
                     }
                 });
-            else
-            {
-                res.write('<h1>Server is busy loading... Please wait a few minutes then refresh the page.</h1>');
-                res.end();
-            }
         break;
         case '/jquery-2.1.4.min.js':
         case '/index.js':
