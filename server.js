@@ -16,6 +16,7 @@ var server = http.createServer(function(req,res)
     switch (path)
     {
         case '/':
+            console.log("Test");
                 fs.readFile(__dirname + '/index.html', function(error, data){
                     if (error){
                         res.writeHead(404);
