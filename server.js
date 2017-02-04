@@ -56,6 +56,9 @@ var server = http.createServer(function(req,res)
                 if (iban.length == 0) {
                     res.write('empty');
                 }
+                else if (iban.toLowerCase() == 'eineiban') {
+                    res.write('lol');
+                }
                 else if (iban.length > 22 || iban.length < 22) {
                     res.write('not22');
                 }
