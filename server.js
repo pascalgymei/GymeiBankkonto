@@ -102,7 +102,7 @@ server.listen(port, function () {
 
 io.listen(server);
 io.on('connection', function(socket){
-    socket.on(Type.LOGIN, function () {
-        console.log("Test");
+    socket.on(Type.LOGIN, function (iban) {
+        console.log(iban);
     });
 });
