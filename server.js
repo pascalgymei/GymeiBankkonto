@@ -16,8 +16,6 @@ var server = http.createServer(function(req,res)
     switch (path)
     {
         case '/':
-            if (testTime && apass)
-            {
                 fs.readFile(__dirname + '/index.html', function(error, data){
                     if (error){
                         res.writeHead(404);
@@ -30,7 +28,6 @@ var server = http.createServer(function(req,res)
                         res.end();
                     }
                 });
-            }
             else
             {
                 res.write('<h1>Server is busy loading... Please wait a few minutes then refresh the page.</h1>');
