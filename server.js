@@ -11,7 +11,8 @@ var headers = {
 
 //Enums
 var Type = {
-    TEST: 0
+    TEST1: 0,
+    TEST2: 1
 };
 
 var server = http.createServer(function(req,res)
@@ -63,7 +64,8 @@ server.listen(port, function () {
 
 io.listen(server);
 io.on('connection', function(socket){
-    socket.on(Type.TEST, function () {
-      console.log("Test");
+    socket.on(Type.TEST1, function () {
+        console.log("Test");
+        socket.emit(Type.TEST2);
     });
 });
