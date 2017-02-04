@@ -61,6 +61,9 @@ server.listen(port, function () {
     console.log('Listening on port ' + port + '...');
 });
 
-socket.on(Type.TEST, function () {
-    console.log("Test");
+io.listen(server);
+io.on('connection', function(socket){
+    socket.on(Type.TEST, function () {
+      console.log("Test");
+    });
 });
