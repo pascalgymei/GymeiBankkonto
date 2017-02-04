@@ -3,6 +3,16 @@ var Type = {
     TEST1: 0
 };
 
+function logiban() {
+    var IBAN_element = document.getElementById('iban');
+    var password_element = document.getElementById('password');
+
+    var username = username_element.value.trim();
+    var password = password_element.value.trim();
+
+    socket.emit(Type.Test1, iban, password);
+}
+
 var socket = io.connect({ 'pingInterval': 45000 });
 
 $(document).ready(function () {
@@ -24,13 +34,9 @@ function checkIBAN(iban) {
                 $('#send').attr('disabled', 'disabled');
             }
             else if (result == 'not22') {
-                $('#error').html('Eine IBAN besteht aus 22 Ziffern. Bitte überprüfen sie diese.');
+                $('#error').html('Eine IBAN besteht aus 22 Ziffern. Bitte überprüfen sie dies.');
                 $('#error').css('display', 'block');
                 $('#send').attr('disabled', 'disabled');
-            }
-            else if (result == 'lol') {
-                $('#error').html('Sehr witzig.');
-                $('#error').css('display', 'block');
             }
             else {
                 $('#error').html('');
@@ -42,12 +48,3 @@ function checkIBAN(iban) {
         }
     });
 };
-function login() {
-    var IBAN_element = document.getElementById('iban');
-    var password_element = document.getElementById('password');
-
-    var username = username_element.value.trim();
-    var password = password_element.value.trim();
-
-    socket.emit(Type.Test1, iban, password);
-}
