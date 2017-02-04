@@ -12,7 +12,7 @@ $(document).ready(function () {
 });
 function checkIBAN(iban) {
     $.ajax({
-        url: '/namecheck', data: iban, success: function (result) {
+        url: '/ibancheck', data: iban, success: function (result) {
             if (result == 'invalid') {
                 $('#error').html('Eine IBAN darf nur Buchstaben von A-Z und Zahlen enthalten.');
                 $('#error').css('display', 'block');
@@ -41,7 +41,7 @@ function checkIBAN(iban) {
             console.log('ERROR! Unable to make AJAX request.');
         }
     });
-}
+};
 function login() {
     var IBAN_element = document.getElementById('iban');
     var password_element = document.getElementById('password');

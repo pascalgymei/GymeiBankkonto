@@ -49,20 +49,20 @@ var server = http.createServer(function(req,res)
                 }
             });
         break;
-        case '/namecheck':
-            var name = url.parse(req.url).query;
-            if (name && typeof name == 'string') {
+        case '/ibancheck':
+            var iban = url.parse(req.url).query;
+            if (iban && typeof iban == 'string') {
                 res.writeHead(200, { "Content-Type": "text/plain" });
-                if (name.length == 0) {
+                if (iban.length == 0) {
                     res.write('empty');
                 }
-                else if (name.toLowerCase() == 'eine IBAN') {
+                else if (iban.toLowerCase() == 'eine iban') {
                     res.write('lol');
                 }
-                else if (name.length > 22 || name.length < 22) {
+                else if (iban.length > 22 || iban.length < 22) {
                     res.write('not22');
                 }
-                else if (/^[a-z0-9-_]+$/i.test(name)) {
+                else if (/^[a-z0-9-_]+$/i.test(iban)) {
                     res.write('good');
                 }
                 else {
