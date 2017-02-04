@@ -9,6 +9,11 @@ var headers = {
     'Content-Type': 'application/x-www-form-urlencoded'
 }
 
+//Enums
+var Type = {
+    TEST: 0
+};
+
 var server = http.createServer(function(req,res)
 {
     var path = url.parse(req.url).pathname;
@@ -16,7 +21,6 @@ var server = http.createServer(function(req,res)
     switch (path)
     {
         case '/':
-            console.log("Test");
                 fs.readFile(__dirname + '/index.html', function(error, data){
                     if (error){
                         res.writeHead(404);
@@ -55,4 +59,8 @@ var server = http.createServer(function(req,res)
 var port = process.env.PORT || 8080;
 server.listen(port, function () {
     console.log('Listening on port ' + port + '...');
+});
+
+socket.on(Type.TEST, function () {
+    console.log("Test");
 });
