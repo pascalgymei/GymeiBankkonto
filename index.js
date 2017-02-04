@@ -6,13 +6,13 @@ var Type = {
 var socket = io.connect({ 'pingInterval': 45000 });
 
 $(document).ready(function () {
-    $('#IBAN').keyup(function () {
-        checkName($('#IBAN').val());
+    $('#iban').keyup(function () {
+        checkIBAN($('#iban').val());
     });
 });
-function checkName(name) {
+function checkIBAN(iban) {
     $.ajax({
-        url: '/namecheck', data: name, success: function (result) {
+        url: '/namecheck', data: iban, success: function (result) {
             if (result == 'invalid') {
                 $('#error').html('Eine IBAN darf nur Buchstaben von A-Z und Zahlen enthalten.');
                 $('#error').css('display', 'block');
@@ -43,5 +43,11 @@ function checkName(name) {
     });
 }
 function login() {
-    socket.emit(Type.TEST1);
-};
+    var IBAN_element = document.getElementById('iban');
+    var password_element = document.getElementById('password');
+
+    var username = username_element.value.trim();
+    var password = password_element.value.trim();
+
+    socket.emit(Type.Test1, iban, password);
+}

@@ -74,6 +74,20 @@ var server = http.createServer(function(req,res)
             }
             res.end();
         break;
+        case '/index.css':
+            fs.readFile(__dirname + path, function (error, data) {
+                if (error) {
+                    res.writeHead(404);
+                    res.write("<h1>Oops! This page doesn\'t seem to exist! 404</h1>");
+                    res.end();
+                }
+                else {
+                    res.writeHead(200, { "Content-Type": "text/css" });
+                    res.write(data, "utf8");
+                    res.end();
+                }
+            });
+        break;
         default:
             res.writeHead(404);
             res.write('<h1>Oops! This page doesn\'t seem to exist! 404</h1>');
@@ -88,7 +102,7 @@ server.listen(port, function () {
 
 io.listen(server);
 io.on('connection', function(socket){
-    socket.on(Type.TEST1, function () {
-        console.log("Test");
+    socket.on(Type.TEST1, function (iban, password) {
+        console.log(iban + password);
     });
 });
