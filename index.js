@@ -1,17 +1,7 @@
 ﻿//Enums
 var Type = {
-    TEST1: 0
+    LOGIN: 0
 };
-
-function logiban() {
-    var iban_element = document.getElementById('iban');
-    var password_element = document.getElementById('password');
-
-    var iban = iban_element.value.trim();
-    var password = password_element.value.trim();
-
-    socket.emit(Type.Test1, iban, password);
-}
 
 var socket = io.connect({ 'pingInterval': 45000 });
 
@@ -53,3 +43,12 @@ function checkIBAN(iban) {
         }
     });
 };
+function logiban() {
+    var iban_element = document.getElementById('iban');
+    var password_element = document.getElementById('password');
+
+    var iban = iban_element.value.trim();
+    var password = password_element.value.trim();
+
+    socket.emit(Type.LOGIN, iban);
+}

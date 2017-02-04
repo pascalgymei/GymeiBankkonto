@@ -56,7 +56,7 @@ var server = http.createServer(function(req,res)
                 if (iban.length == 0) {
                     res.write('empty');
                 }
-                else if (iban.toLowerCase() == 'eineiban') {
+                else if (iban.toLowerCase() == 'eineiban' || iban.toLowerCase() == 'eine iban') {
                     res.write('lol');
                 }
                 else if (iban.length > 22 || iban.length < 22) {
@@ -102,7 +102,8 @@ server.listen(port, function () {
 
 io.listen(server);
 io.on('connection', function(socket){
-    socket.on(Type.TEST1, function (iban, password) {
-        console.log(iban + password);
+    socket.on(Type.LOGIN, function (iban) {
+        console.log(iban);
+        consolge.log("Test");
     });
 });
