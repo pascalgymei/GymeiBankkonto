@@ -11,7 +11,7 @@ var headers = {
 
 //Enums
 var Type = {
-    TEST1: 0
+    LOGIN: 0
 };
 
 var server = http.createServer(function(req,res)
@@ -56,7 +56,7 @@ var server = http.createServer(function(req,res)
                 if (iban.length == 0) {
                     res.write('empty');
                 }
-                else if (iban.replace(/\s+/g, '').toLowerCase() == 'eineiban') {
+                else if (iban.toLowerCase() == 'eineiban' || iban == 'eine IBAN') {
                     res.write('lol');
                 }
                 else if (iban.length > 22 || iban.length < 22) {
