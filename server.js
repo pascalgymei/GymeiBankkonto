@@ -312,8 +312,24 @@ class Bankkonto {
     }
 };
 
-var BK1 = new Bankkonto("DE89370400440532013000", 1000, 0.5, "Girokonto", -100, "ABC");
-var BK2 = new Bankkonto("DE42187384985716759572", 500, 0.4, "Girokonto", -200, "DEF")
+var BK1 = new Bankkonto("DE89370400440532013000", 500, 0.4, "Girokonto", -200, "AB");
+var BK2 = new Bankkonto("DE42187384985716759572", 500, 0.4, "Girokonto", -200, "CD");
+var BK3 = new Bankkonto("DE20822801607300142830", 500, 0.4, "Girokonto", -200, "EF");
+var BK4 = new Bankkonto("DE87760446418145358724", 500, 0.4, "Girokonto", -200, "GH");
+var BK5 = new Bankkonto("DE58552912769148615367", 500, 0.4, "Girokonto", -200, "IJ");
+var BK6 = new Bankkonto("DE17274456347096603050", 500, 0.4, "Girokonto", -200, "KL");
+var BK7 = new Bankkonto("DE73196740431428151665", 500, 0.4, "Girokonto", -200, "MN");
+var BK8 = new Bankkonto("DE40187313439809823831", 500, 0.4, "Girokonto", -200, "OP");
+var BK9 = new Bankkonto("DE54838684617785598446", 500, 0.4, "Girokonto", -200, "QR");
+var BK10 = new Bankkonto("DE23097965231907149531", 500, 0.4, "Girokonto", -200, "ST");
 var IBAN_LIST = new Array();
 IBAN_LIST[BK1.abrufen_func("IBAN")] = BK1;
 IBAN_LIST[BK2.abrufen_func("IBAN")] = BK2;
+IBAN_LIST[BK3.abrufen_func("IBAN")] = BK3;
+IBAN_LIST[BK4.abrufen_func("IBAN")] = BK4;
+IBAN_LIST[BK5.abrufen_func("IBAN")] = BK5;
+IBAN_LIST[BK6.abrufen_func("IBAN")] = BK6;
+IBAN_LIST[BK7.abrufen_func("IBAN")] = BK7;
+IBAN_LIST[BK8.abrufen_func("IBAN")] = BK8;
+IBAN_LIST[BK9.abrufen_func("IBAN")] = BK9;
+IBAN_LIST[BK10.abrufen_func("IBAN")] = BK10;
