@@ -13,7 +13,9 @@ var headers = {
 //Enums
 var Type = {
     LOGIN: 0,
-    LOGINB: 1
+    LOGINB: 1,
+    BKI: 2,
+    BKO: 3
 };
 
 function getIp(socket) {
@@ -216,6 +218,25 @@ io.on('connection', function (socket) {
             socket.emit(Type.LOGINB, 'iban1', '');
         }
     });
+    socket.on(Type.BKI, function (type,iban,value) {
+        switch (type) {
+            case 'einzahlen':
+                var konto = IBAN_LIST[iban];
+                var result = konto.einzahlen_func(value);
+                socket.emit(Type.BKO, 'einzahlen', iban, result, value);
+                break;
+            case 'auszahlen':
+                var konto = IBAN_LIST[iban];
+                var result = konto.auszahlen_func(value);
+                socket.emit(Type.BKO, 'auszahlen', iban, result, value);
+                break;
+            case 'kabrufen':
+                var konto = IBAN_LIST[iban];
+                var result = konto.abrufen_func("Kontostand");
+                socket.emit(Type.BKO, 'kabrufen', iban, result, '');
+                break;
+        }
+    });
 });
 
 class Bankkonto {
@@ -231,18 +252,18 @@ class Bankkonto {
 
     auszahlen_func(BETRAG) {
         if (this.__KONTOSTAND - BETRAG < this.__NEGATIV) {
-            return "Ihre Auszahlungsanfrage von " + BETRAG + " übersteigt ihren maximalen Kredit von -" + this.__NEGATIV + "€, da ihr Kontostand bei " + this.__KONTOSTAND + "€ liegt!";
+            return "credreach";
         }
         else {
             this.__KONTOSTAND -= BETRAG;
             this.__AUSZUG += "\nEs wurden " + BETRAG + "€ von ihrem Konto abgebucht.";
-            return "Ihr Betrag von " + BETRAG + "€ wurde erfolgreich abgebucht.";
+            return "success";
         }
     }
     einzahlen_func(BETRAG) {
-        this.__KONTOSTAND += BETRAG;
+        this.__KONTOSTAND = parseInt(this.__KONTOSTAND) + parseInt(BETRAG);
         this.__AUSZUG += "\nEs wurden " + BETRAG + "€ zu ihrem Konto aufgebucht.";
-        return "Ihr Betrag von " + BETRAG + "€ wurde erfolgreich aufgebucht.";
+        return true;
     }
     abrufen_func(TYP) {
         if (TYP == "Kontostand") {

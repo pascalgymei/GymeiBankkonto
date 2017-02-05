@@ -1,7 +1,9 @@
 ﻿//Enums
 var Type = {
     LOGIN: 0,
-    LOGINB: 1
+    LOGINB: 1,
+    BKI: 2,
+    BKO: 3
 };
 
 function setCookie(cname, cvalue) {
@@ -25,8 +27,8 @@ function getCookie(cname) {
 }
 
 function checkCookie(cname) {
-    var iban = getCookie(cname);
-    if (iban != "") {
+    var cookie = getCookie(cname);
+    if (cookie != "") {
         return true;
     }
     else {

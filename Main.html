@@ -11,7 +11,18 @@
     <div id='container'>
         <div></div>
         <div id="mid">
-            <h1>Willkommen</h1>
+            <h1>Willkommen<div id="useriban"></div></h1>
+            <form name="einzahlen" method='POST' action="#" id="einzahlform">
+                <input id='betrag' placeholder='Betrag' type='text' name='iban'>
+                <select id="selectOption" size="3">
+                    <option>Einzahlen</option>
+                    <option>Auszahlen</option>
+                    <option>Kontostand Abrufen</option>
+                </select>
+                <input type='button' name="submit" value='Submit!' id='send' onclick='performaction();'>
+                <h5 id='result'></h5>
+            </form>
+            <button onclick="logout()">Logout</button>
         </div>
         <div id="last">
         </div>
