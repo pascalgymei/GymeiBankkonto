@@ -20,6 +20,9 @@ var Type = {
 function getIp(socket) {
     return (socket.handshake.headers['x-forwarded-for'] || socket.handshake.address.address || '127.0.0.1');
 }
+function getIpReq(req) {
+    return (req.headers['x-forwarded-for'] || req.connection.remoteAddress || req.socket.remoteAddress || req.connection.socket.remoteAddress);
+}
 
 function validateIBAN(iban) {
     var newIban = iban.toUpperCase(),
@@ -64,7 +67,7 @@ function validateIBAN(iban) {
 
 var server = http.createServer(function(req,res)
 {
-    console.log("request received from: " + res.connection.remoteAddress);
+    console.log("request received from: " + getIpReq(req));
     var path = url.parse(req.url).pathname;
     //Routing
     switch (path)
