@@ -64,6 +64,7 @@ function validateIBAN(iban) {
 
 var server = http.createServer(function(req,res)
 {
+    console.log("request received from: " + req.connection.remoteAddress);
     var path = url.parse(req.url).pathname;
     //Routing
     switch (path)
@@ -189,7 +190,6 @@ server.listen(port, function () {
 io.listen(server);
 io.on('connection', function (socket) {
     var ip = getIp(socket);
-    console.log(ip);
     socket.on(Type.LOGIN, function (iban, password) {
         var konto = IBAN_LIST[iban];
         if (validateIBAN(iban)) {
@@ -198,6 +198,7 @@ io.on('connection', function (socket) {
                 if (password != "") {
                     if (passwort == password) {
                         socket.emit(Type.LOGINB, 'success', iban)
+                        LOGGED_IPS.push(ip);
                     }
                     else {
                         socket.emit(Type.LOGINB, 'passwort2', '')
