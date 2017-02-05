@@ -1,8 +1,10 @@
+"use strict"
 var http = require('http');
 var url = require('url');
 var fs = require('fs');
 var Server = require('socket.io');
 var io = new Server(http, { pingInterval: 5000, pingTimeout: 10000 });
+var LOGGED_IPS = [];
 
 var headers = {
     'User-Agent': 'Super Agent/0.0.1',
@@ -14,6 +16,10 @@ var Type = {
     LOGIN: 0,
     LOGINB: 1
 };
+
+function getIp(socket) {
+    return (socket.handshake.headers['x-forwarded-for'] || socket.handshake.address.address || '127.0.0.1');
+}
 
 function validateIBAN(iban) {
     var newIban = iban.toUpperCase(),
@@ -78,6 +84,7 @@ var server = http.createServer(function(req,res)
         break;
         case '/jquery-2.1.4.min.js':
         case '/index.js':
+        case '/main.js':
             fs.readFile(__dirname + path, function(error, data){
                 if (error){
                     res.writeHead(404);
@@ -137,8 +144,23 @@ var server = http.createServer(function(req,res)
                 res.write('empty');
             }
             res.end();
-        break;
+            break;
+        case '/main':
+            fs.readFile(__dirname + path + '.html', function (error, data) {
+                if (error) {
+                    res.writeHead(404);
+                    res.write("<h1>Oops! This page doesn\'t seem to exist! 404</h1>");
+                    res.end();
+                }
+                else {
+                    res.writeHead(200, { "Content-Type": "text/html" });
+                    res.write(data, "utf8");
+                    res.end();
+                }
+            });
+            break;
         case '/index.css':
+        case '/main.css':
             fs.readFile(__dirname + path, function (error, data) {
                 if (error) {
                     res.writeHead(404);
@@ -165,25 +187,32 @@ server.listen(port, function () {
 });
 
 io.listen(server);
-io.on('connection', function(socket){
+io.on('connection', function (socket) {
+    var ip = getIp(socket);
+    console.log(ip);
     socket.on(Type.LOGIN, function (iban, password) {
         var konto = IBAN_LIST[iban];
         if (validateIBAN(iban)) {
             if (konto) {
                 var passwort = konto.abrufen_func("Passwort");
-                if (passwort == password) {
-
+                if (password != "") {
+                    if (passwort == password) {
+                        socket.emit(Type.LOGINB, 'success', iban)
+                    }
+                    else {
+                        socket.emit(Type.LOGINB, 'passwort2', '')
+                    }
                 }
                 else {
-                    socket.emit(Type.LOGINB, 'passwort', password)
+                    socket.emit(Type.LOGINB, 'passwort1', '');
                 }
             }
             else {
-                socket.emit(Type.LOGINB, 'iban1', iban);
+                socket.emit(Type.LOGINB, 'iban2', iban);
             }
         }
         else {
-            socket.emit(Type.LOGINB, 'iban2', iban);
+            socket.emit(Type.LOGINB, 'iban1', '');
         }
     });
 });
