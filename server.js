@@ -218,22 +218,27 @@ io.on('connection', function (socket) {
             socket.emit(Type.LOGINB, 'iban1', '');
         }
     });
-    socket.on(Type.BKI, function (type,iban,value) {
+    socket.on(Type.BKI, function (type,iban,value1,value2) {
         switch (type) {
             case 'einzahlen':
                 var konto = IBAN_LIST[iban];
-                var result = konto.einzahlen_func(value);
-                socket.emit(Type.BKO, 'einzahlen', iban, result, value);
+                var result = konto.einzahlen_func(value1);
+                socket.emit(Type.BKO, 'einzahlen', iban, result, value1, '');
                 break;
             case 'auszahlen':
                 var konto = IBAN_LIST[iban];
-                var result = konto.auszahlen_func(value);
-                socket.emit(Type.BKO, 'auszahlen', iban, result, value);
+                var result = konto.auszahlen_func(value1);
+                socket.emit(Type.BKO, 'auszahlen', iban, result, value1, '');
                 break;
             case 'kabrufen':
                 var konto = IBAN_LIST[iban];
                 var result = konto.abrufen_func("Kontostand");
-                socket.emit(Type.BKO, 'kabrufen', iban, result, '');
+                socket.emit(Type.BKO, 'kabrufen', iban, result, '', '');
+                break;
+            case 'ueberweisen':
+                var konto = IBAN_LIST[iban];
+                var result = konto.ueberweisen_func(value2, value1);
+                socket.emit(Type.BKO, 'ueberweisen', iban, result, value1, value2);
                 break;
         }
     });
@@ -289,19 +294,19 @@ class Bankkonto {
     }
     ueberweisen_func(IBAN, BETRAG) {
         if (this.__KONTOSTAND - BETRAG < this.__NEGATIV) {
-            return "Ihre Überweisung von " + BETRAG + " übersteigt ihren maximalen Kredit von -" + this.__NEGATIV + "€, da ihr Kontostand bei " + this.__KONTOSTAND + "€ liegt!";
+            return "credreach";
         }
         else {
             var KONTOTO = IBAN_LIST[IBAN];
             if (KONTOTO) {
                 this.__KONTOSTAND -= BETRAG;
-                KONTOTO.__KONTOSTAND += BETRAG;
+                KONTOTO.__KONTOSTAND = parseInt(KONTOTO.__KONTOSTAND) + parseInt(BETRAG);
                 this.__AUSZUG += "\nEs wurden " + BETRAG + "€ zu " + KONTOTO.__IBAN + " überwiesen.";
                 KONTOTO.__AUSZUG += "\nEs wurden " + BETRAG + "€ von " + this.__IBAN + " auf ihr Konto überwiesen.";
-                return BETRAG + "€ wurden erfolgreich überwiesen.";
+                return "success";
             }
             else {
-                return IBAN + " ist keine gültige IBAN!";
+                return "noiban";
             }
         }
     }
