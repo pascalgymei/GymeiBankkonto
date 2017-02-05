@@ -64,7 +64,7 @@ function validateIBAN(iban) {
 
 var server = http.createServer(function(req,res)
 {
-    console.log("request received from: " + req.connection.remoteAddress);
+    console.log("request received from: " + res.connection.remoteAddress);
     var path = url.parse(req.url).pathname;
     //Routing
     switch (path)
