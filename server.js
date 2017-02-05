@@ -151,16 +151,9 @@ var server = http.createServer(function(req,res)
         case '/main':
             fs.readFile(__dirname + path + '.html', function (error, data) {
                 if (LOGGED_IPS.indexOf(getIpReq(req)) != -1) {
-                    if (error) {
-                        res.writeHead(404);
-                        res.write("<h1>Oops! This page doesn\'t seem to exist! 404</h1>");
-                        res.end();
-                    }
-                    else {
-                        res.writeHead(200, { "Content-Type": "text/html" });
-                        res.write(data, "utf8");
-                        res.end();
-                    }
+                    res.writeHead(200, { "Content-Type": "text/html" });
+                    res.write(data, "utf8");
+                    res.end();
                 }
                 else {
                     res.writeHead(302, { "Location": "/" });
