@@ -150,13 +150,12 @@ var server = http.createServer(function(req,res)
             break;
         case '/main':
             fs.readFile(__dirname + path + '.html', function (error, data) {
-                if (LOGGED_IPS.indexOf(getIpReq(req)) != -1) {
+                if (LOGGED_IPS.indexOf(getIpReq(req)) > 0) {
                     res.writeHead(200, { "Content-Type": "text/html" });
                     res.write(data, "utf8");
                     res.end();
                 }
                 else {
-                    console.log(LOGGED_IPS.indexOf(getIpReq(req)));
                     res.writeHead(302, { "Location": "/" });
                     res.end();
                 }
