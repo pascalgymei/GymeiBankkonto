@@ -4,7 +4,6 @@ var url = require('url');
 var fs = require('fs');
 var Server = require('socket.io');
 var io = new Server(http, { pingInterval: 5000, pingTimeout: 10000 });
-var LOGGED_IPS = [];
 
 var headers = {
     'User-Agent': 'Super Agent/0.0.1',
@@ -150,15 +149,14 @@ var server = http.createServer(function(req,res)
             break;
         case '/main':
             fs.readFile(__dirname + path + '.html', function (error, data) {
-                if (LOGGED_IPS.indexOf(getIpReq(req).toString()) > 0) {
-                    res.writeHead(200, { "Content-Type": "text/html" });
-                    res.write(data, "utf8");
+                if (error) {
+                    res.writeHead(404);
+                    res.write("<h1>Oops! This page doesn\'t seem to exist! 404</h1>");
                     res.end();
                 }
                 else {
-                    console.log(getIpReq(req));
-                    console.log(LOGGED_IPS[0]);
-                    res.writeHead(302, { "Location": "/" });
+                    res.writeHead(200, { "Content-Type": "text/html" });
+                    res.write(data, "utf8");
                     res.end();
                 }
             });
@@ -201,7 +199,6 @@ io.on('connection', function (socket) {
                 if (password != "") {
                     if (passwort == password) {
                         socket.emit(Type.LOGINB, 'success', iban)
-                        LOGGED_IPS.push(ip.toString());
                     }
                     else {
                         socket.emit(Type.LOGINB, 'passwort2', '')
