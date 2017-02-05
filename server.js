@@ -156,6 +156,8 @@ var server = http.createServer(function(req,res)
                     res.end();
                 }
                 else {
+                    console.log(getIpReq(req));
+                    console.log(LOGGED_IPS[0]);
                     res.writeHead(302, { "Location": "/" });
                     res.end();
                 }
