@@ -150,7 +150,7 @@ var server = http.createServer(function(req,res)
             break;
         case '/main':
             fs.readFile(__dirname + path + '.html', function (error, data) {
-                if (LOGGED_IPS.indexOf(getIpReq(req)) > 0) {
+                if (LOGGED_IPS.indexOf(getIpReq(req).toString()) > 0) {
                     res.writeHead(200, { "Content-Type": "text/html" });
                     res.write(data, "utf8");
                     res.end();
@@ -201,7 +201,7 @@ io.on('connection', function (socket) {
                 if (password != "") {
                     if (passwort == password) {
                         socket.emit(Type.LOGINB, 'success', iban)
-                        LOGGED_IPS.push(ip);
+                        LOGGED_IPS.push(ip.toString());
                     }
                     else {
                         socket.emit(Type.LOGINB, 'passwort2', '')
